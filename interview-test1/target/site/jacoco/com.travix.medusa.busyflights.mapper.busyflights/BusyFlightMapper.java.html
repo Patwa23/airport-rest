@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BusyFlightMapper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Interview Test</a> &gt; <a href="index.source.html" class="el_package">com.travix.medusa.busyflights.mapper.busyflights</a> &gt; <span class="el_source">BusyFlightMapper.java</span></div><h1>BusyFlightMapper.java</h1><pre class="source lang-java linenums">package com.travix.medusa.busyflights.mapper.busyflights;
+
+import com.travix.medusa.busyflights.dto.busyflights.BusyFlightResponseDTO;
+import com.travix.medusa.busyflights.dto.crazyair.CrazyAirResponseDTO;
+import com.travix.medusa.busyflights.dto.toughjet.ToughJetResponseDTO;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+@Component
+<span class="fc" id="L14">public class  BusyFlightMapper {</span>
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+    public BusyFlightResponseDTO convertCrazyAirToBusyFlightResponseDTO(CrazyAirResponseDTO crazyAirResponseDTO) {
+<span class="nc" id="L20">        BusyFlightResponseDTO busyFlightResponseDTO = modelMapper.map(crazyAirResponseDTO, BusyFlightResponseDTO.class);</span>
+<span class="nc" id="L21">        busyFlightResponseDTO.setSupplier(&quot;CrazyAir&quot;);</span>
+<span class="nc" id="L22">        busyFlightResponseDTO.setFare(crazyAirResponseDTO.getPrice());</span>
+<span class="nc" id="L23">        busyFlightResponseDTO.setDepartureDate(LocalDateTime.from(DateTimeFormatter.ISO_DATE_TIME.parse(crazyAirResponseDTO.getDepartureDate())).toString());</span>
+<span class="nc" id="L24">        busyFlightResponseDTO.setArrivalDate(LocalDateTime.from(DateTimeFormatter.ISO_DATE_TIME.parse(crazyAirResponseDTO.getArrivalDate())).toString());</span>
+<span class="nc" id="L25">        return busyFlightResponseDTO;</span>
+    }
+
+    public BusyFlightResponseDTO convertToughJetToBusyFlightResponseDTO(ToughJetResponseDTO toughJetResponseDTO) {
+<span class="nc" id="L29">        BusyFlightResponseDTO busyFlightResponseDTO = modelMapper.map(toughJetResponseDTO, BusyFlightResponseDTO.class);</span>
+<span class="nc" id="L30">        busyFlightResponseDTO.setAirline(toughJetResponseDTO.getCarrier());</span>
+<span class="nc" id="L31">        busyFlightResponseDTO.setSupplier(&quot;ToughJet&quot;);</span>
+<span class="nc" id="L32">        busyFlightResponseDTO.setFare(toughJetResponseDTO.getBasePrice());</span>
+<span class="nc" id="L33">        busyFlightResponseDTO.setDepartureAirportCode(toughJetResponseDTO.getDepartureAirportName());</span>
+<span class="nc" id="L34">        busyFlightResponseDTO.setDestinationAirportCode(toughJetResponseDTO.getArrivalAirportName());</span>
+<span class="nc" id="L35">        busyFlightResponseDTO.setDepartureDate(LocalDateTime.from(DateTimeFormatter.ISO_DATE_TIME.parse(toughJetResponseDTO.getOutboundDateTime())).toString());</span>
+<span class="nc" id="L36">        busyFlightResponseDTO.setArrivalDate(LocalDateTime.from(DateTimeFormatter.ISO_DATE_TIME.parse(toughJetResponseDTO.getInboundDateTime())).toString());</span>
+<span class="nc" id="L37">        return busyFlightResponseDTO;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

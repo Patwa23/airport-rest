@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CrazyAirController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Interview Test</a> &gt; <a href="index.source.html" class="el_package">com.travix.medusa.busyflights.controller.crazyair</a> &gt; <span class="el_source">CrazyAirController.java</span></div><h1>CrazyAirController.java</h1><pre class="source lang-java linenums">package com.travix.medusa.busyflights.controller.crazyair;
+
+import com.travix.medusa.busyflights.dto.crazyair.CrazyAirResponseDTO;
+import com.travix.medusa.busyflights.service.crazyair.CrazyAirService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.util.Collection;
+
+/**
+ * Java RESTful Web Service endpoints for Crazy Air
+ * &lt;p&gt;
+ * Created by Prakash Patwa on 20/05/2019
+ */
+@RestController
+@RequestMapping(&quot;/crazyair&quot;)
+@Api(value = &quot;CrazyAir&quot;, tags = (&quot;Crazy Air API&quot;))
+<span class="fc" id="L24">public class CrazyAirController {</span>
+
+    @Autowired
+    private CrazyAirService crazyAirService;
+
+    @GetMapping(&quot;/flights&quot;)
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation(
+            value = &quot;Get a list of Flights&quot;,
+            notes = &quot;Get a Crazy Air Flight list&quot;
+    )
+    public Collection&lt;CrazyAirResponseDTO&gt; getCrazyAirFlights(@ApiParam(name = &quot;origin&quot;, value = &quot;3 letter IATA code(eg. LHR, AMS)&quot;, required = true) @RequestParam(name = &quot;origin&quot;) String origin,
+                                                              @ApiParam(name = &quot;destination&quot;, value = &quot;3 letter IATA code(eg. LHR, AMS)&quot;, required = true) @RequestParam(name = &quot;destination&quot;) String destination,
+                                                              @ApiParam(name = &quot;departureDate&quot;, value = &quot;ISO_LOCAL_DATE format&quot;, required = true) @RequestParam(name = &quot;departureDate&quot;) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate departureDate,
+                                                              @ApiParam(name = &quot;returnDate&quot;, value = &quot;ISO_LOCAL_DATE format&quot;, required = true) @RequestParam(name = &quot;returnDate&quot;) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate returnDate,
+                                                              @ApiParam(name = &quot;passengerCount&quot;, value = &quot;Number of passengers&quot;,required = true) @RequestParam(name = &quot;passengerCount&quot;) int passengerCount) {
+<span class="fc" id="L40">        return crazyAirService.getFlights(origin, destination, departureDate, returnDate, passengerCount);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

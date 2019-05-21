@@ -1,0 +1,27 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+Interview Test,com.travix.medusa.busyflights.domain.crazyair,CrazyAirResponse,356,27,58,0,9,1,49,1,20,1
+Interview Test,com.travix.medusa.busyflights.mapper.toughjet,ToughJetMapper,25,3,0,0,4,1,1,1,1,1
+Interview Test,com.travix.medusa.busyflights.dto.busyflights,BusyFlightResponseDTO,312,45,56,0,2,8,40,8,12,8
+Interview Test,com.travix.medusa.busyflights.service.crazyair,CrazyAirServiceImpl,23,3,0,0,4,1,2,1,2,1
+Interview Test,com.travix.medusa.busyflights.handler,BusyFlightExceptionalHandler,21,3,0,0,3,1,3,1,3,1
+Interview Test,com.travix.medusa.busyflights.repository.crazyair,FakeCrazyAirRepositoryImpl,50,40,10,0,7,4,8,1,3,1
+Interview Test,com.travix.medusa.busyflights.controller.busyflights,BusyFlightController,0,12,0,0,0,2,0,2,0,2
+Interview Test,com.travix.medusa.busyflights.dto.toughjet,ToughJetResponseDTO,336,51,52,0,2,9,39,9,13,9
+Interview Test,com.travix.medusa.busyflights.service.toughjet,ToughJetServiceImpl,23,3,0,0,4,1,2,1,2,1
+Interview Test,com.travix.medusa.busyflights.service.busyflights,BusyFlightServiceImpl.new ParameterizedTypeReference() {...},6,0,0,0,1,0,1,0,1,0
+Interview Test,com.travix.medusa.busyflights.service.busyflights,BusyFlightServiceImpl.new ParameterizedTypeReference() {...},6,0,0,0,1,0,1,0,1,0
+Interview Test,com.travix.medusa.busyflights.service.busyflights,BusyFlightServiceImpl,270,3,28,0,46,1,23,1,9,1
+Interview Test,com.travix.medusa.busyflights.exception,BusyFlightApiError,184,0,30,0,7,0,27,0,12,0
+Interview Test,com.travix.medusa.busyflights.exception,BusyFlightIllegalException,4,0,0,0,2,0,1,0,1,0
+Interview Test,com.travix.medusa.busyflights.exception,BusyFlightNotFoundException,4,0,0,0,2,0,1,0,1,0
+Interview Test,com.travix.medusa.busyflights.dto.crazyair,CrazyAirResponseDTO,312,45,56,0,2,8,40,8,12,8
+Interview Test,com.travix.medusa.busyflights.config,SwaggerConfig,11,13,0,0,5,5,1,2,1,2
+Interview Test,com.travix.medusa.busyflights.config,BusyFlightsConfig,0,15,0,0,0,4,0,4,0,4
+Interview Test,com.travix.medusa.busyflights,BusyFlightsApplication,5,3,0,0,2,1,1,1,1,1
+Interview Test,com.travix.medusa.busyflights.controller.toughjet,ToughJetController,0,12,0,0,0,2,0,2,0,2
+Interview Test,com.travix.medusa.busyflights.mapper.crazyair,CrazyAirMapper,21,3,0,0,4,1,1,1,1,1
+Interview Test,com.travix.medusa.busyflights.repository.toughjet,FakeToughJetRepositoryImpl,50,25,10,0,7,3,8,1,3,1
+Interview Test,com.travix.medusa.busyflights.domain.toughjet,ToughJetResponse,383,30,54,0,10,1,49,1,22,1
+Interview Test,com.travix.medusa.busyflights.domain.busyflights,BusyFlightsResponse,383,0,58,0,10,0,50,0,21,0
+Interview Test,com.travix.medusa.busyflights.controller.crazyair,CrazyAirController,0,12,0,0,0,2,0,2,0,2
+Interview Test,com.travix.medusa.busyflights.mapper.busyflights,BusyFlightMapper,76,3,0,0,15,1,2,1,2,1

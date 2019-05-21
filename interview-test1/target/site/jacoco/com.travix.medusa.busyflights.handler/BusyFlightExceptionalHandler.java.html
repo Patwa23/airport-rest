@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BusyFlightExceptionalHandler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Interview Test</a> &gt; <a href="index.source.html" class="el_package">com.travix.medusa.busyflights.handler</a> &gt; <span class="el_source">BusyFlightExceptionalHandler.java</span></div><h1>BusyFlightExceptionalHandler.java</h1><pre class="source lang-java linenums">package com.travix.medusa.busyflights.handler;
+
+import com.travix.medusa.busyflights.exception.BusyFlightApiError;
+import com.travix.medusa.busyflights.exception.BusyFlightIllegalException;
+import com.travix.medusa.busyflights.exception.BusyFlightNotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import javax.validation.ConstraintViolationException;
+
+/**
+ * Busy Flight Exception Handler holds all the Custom exception thrown by Service Class
+ *
+ * Created by Prakash Patwa on 20/05/2019
+ */
+@RestControllerAdvice
+<span class="fc" id="L19">public class BusyFlightExceptionalHandler {</span>
+
+    @ExceptionHandler(BusyFlightNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public final BusyFlightApiError handleNotFound(Exception ex) {
+<span class="nc" id="L24">        return new BusyFlightApiError(ex.getMessage(), HttpStatus.NOT_FOUND);</span>
+    }
+
+    @ExceptionHandler(BusyFlightIllegalException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public final BusyFlightApiError handleIllegalException(BusyFlightApiError ex) {
+<span class="nc" id="L30">        return new BusyFlightApiError(ex.getMessage(), HttpStatus.BAD_REQUEST);</span>
+    }
+
+    @ExceptionHandler({ ConstraintViolationException.class })
+    public BusyFlightApiError handleConstraintViolation(ConstraintViolationException ex) {
+<span class="nc" id="L35">        return new BusyFlightApiError(ex.getMessage(), HttpStatus.BAD_REQUEST);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

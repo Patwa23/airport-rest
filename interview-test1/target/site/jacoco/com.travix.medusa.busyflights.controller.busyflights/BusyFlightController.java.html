@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BusyFlightController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Interview Test</a> &gt; <a href="index.source.html" class="el_package">com.travix.medusa.busyflights.controller.busyflights</a> &gt; <span class="el_source">BusyFlightController.java</span></div><h1>BusyFlightController.java</h1><pre class="source lang-java linenums">package com.travix.medusa.busyflights.controller.busyflights;
+
+import com.travix.medusa.busyflights.dto.busyflights.BusyFlightResponseDTO;
+import com.travix.medusa.busyflights.service.busyflights.BusyFlightService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.constraints.Max;
+import java.util.Collection;
+
+/**
+ * Java RESTful Web Service endpoints for Busy Flights
+ *
+ * Created by Prakash Patwa on 20/05/2019
+ */
+@RestController
+@RequestMapping(&quot;/busyflight&quot;)
+@Api(value = &quot;BusyFlight&quot;, tags = (&quot;Busy Flight API&quot;))
+@Validated
+<span class="fc" id="L25">public class BusyFlightController {</span>
+
+    @Autowired
+    private BusyFlightService busyFlightService;
+
+    @GetMapping(&quot;/flights&quot;)
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation(
+            value = &quot;Get a list of Flights&quot;,
+            notes = &quot;Get an aggregated result of flights from both CrazyAir and ToughJet etc&quot;
+    )
+    public Collection&lt;BusyFlightResponseDTO&gt; getBusyFlights(@ApiParam(name = &quot;origin&quot;, value = &quot;3 letter IATA code(eg. LHR, AMS)&quot;, required = true) @RequestParam(name = &quot;origin&quot;) String origin,
+                                                            @ApiParam(name = &quot;destination&quot;, value = &quot;3 letter IATA code(eg. LHR, AMS)&quot;, required = true) @RequestParam(name = &quot;destination&quot;) String destination,
+                                                            @ApiParam(name = &quot;departureDate&quot;, value = &quot;ISO_LOCAL_DATE format&quot;, required = true) @RequestParam(name = &quot;departureDate&quot;) String departureDate,
+                                                            @ApiParam(name = &quot;returnDate&quot;, value = &quot;ISO_LOCAL_DATE format&quot;, required = true) @RequestParam(name = &quot;returnDate&quot;) String returnDate,
+                                                            @ApiParam(name = &quot;numberOfPassengers&quot;, value = &quot;Maximum 4 passengers&quot;,required = true) @RequestParam(name = &quot;numberOfPassengers&quot;) @Max(4) int numberOfPassengers) {
+<span class="fc" id="L41">        return busyFlightService.getFlights(origin, destination, departureDate, returnDate, numberOfPassengers);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

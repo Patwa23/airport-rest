@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ToughJetMapper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Interview Test</a> &gt; <a href="index.source.html" class="el_package">com.travix.medusa.busyflights.mapper.toughjet</a> &gt; <span class="el_source">ToughJetMapper.java</span></div><h1>ToughJetMapper.java</h1><pre class="source lang-java linenums">package com.travix.medusa.busyflights.mapper.toughjet;
+
+import com.travix.medusa.busyflights.domain.toughjet.ToughJetResponse;
+import com.travix.medusa.busyflights.dto.toughjet.ToughJetResponseDTO;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+
+@Component
+<span class="fc" id="L13">public class ToughJetMapper {</span>
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+    public ToughJetResponseDTO convertToToughJetResponseDTO(ToughJetResponse toughJetResponse) {
+<span class="nc" id="L19">        ToughJetResponseDTO toughJetResponseDTO = modelMapper.map(toughJetResponse, ToughJetResponseDTO.class);</span>
+<span class="nc" id="L20">        toughJetResponseDTO.setInboundDateTime(DateTimeFormatter.ISO_INSTANT.format(toughJetResponse.getInboundDateTime().atZone(ZoneId.systemDefault())));</span>
+<span class="nc" id="L21">        toughJetResponseDTO.setOutboundDateTime(DateTimeFormatter.ISO_INSTANT.format(toughJetResponse.getOutboundDateTime().atZone(ZoneId.systemDefault())));</span>
+<span class="nc" id="L22">        return toughJetResponseDTO;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
