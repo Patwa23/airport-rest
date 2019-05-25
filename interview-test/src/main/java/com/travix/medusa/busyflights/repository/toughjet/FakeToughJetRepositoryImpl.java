@@ -1,5 +1,6 @@
 package com.travix.medusa.busyflights.repository.toughjet;
 
+import com.travix.medusa.busyflights.domain.toughjet.ToughJetRequest;
 import com.travix.medusa.busyflights.domain.toughjet.ToughJetResponse;
 import org.springframework.stereotype.Repository;
 
@@ -18,14 +19,14 @@ public class FakeToughJetRepositoryImpl implements ToughJetRepository {
 
     );
 
-    public Collection<ToughJetResponse> getFlights(String from, String to, LocalDate outboundDate, LocalDate inboundDate, int numberOfAdults) {
+    public Collection<ToughJetResponse> getFlights(ToughJetRequest toughJetRequest) {
         return this.flights.stream()
-                .filter(flight -> flight.getDepartureAirportName().equals(from)
-                        && flight.getArrivalAirportName().equals(to)
-                        && LocalDate.from(flight.getOutboundDateTime()).equals(outboundDate)
-                        && LocalDate.from(flight.getInboundDateTime()).equals(inboundDate)
+                .filter(flight -> flight.getDepartureAirportName().equals(toughJetRequest.getFrom())
+                        && flight.getArrivalAirportName().equals(toughJetRequest.getTo())
+                        && LocalDate.from(flight.getOutboundDateTime()).equals(toughJetRequest.getOutboundDate())
+                        && LocalDate.from(flight.getInboundDateTime()).equals(toughJetRequest.getInboundDate())
                 )
-                .filter(flight -> flight.getNumberOfAdults() >= numberOfAdults)
+                .filter(flight -> flight.getNumberOfAdults() >= toughJetRequest.getNumberOfAdults())
                 .collect(Collectors.toList());
     }
 }

@@ -1,5 +1,6 @@
 package com.travix.medusa.busyflights.service.crazyair;
 
+import com.travix.medusa.busyflights.domain.crazyair.CrazyAirRequest;
 import com.travix.medusa.busyflights.domain.crazyair.CrazyAirResponse;
 import com.travix.medusa.busyflights.dto.crazyair.CrazyAirResponseDTO;
 import com.travix.medusa.busyflights.mapper.crazyair.CrazyAirMapper;
@@ -21,9 +22,9 @@ public class CrazyAirServiceImpl implements CrazyAirService {
     private CrazyAirMapper crazyAirMapper;
 
     @Override
-    public Collection<CrazyAirResponseDTO> getFlights(String origin, String destination, LocalDate departureDate, LocalDate returnDate, int passengerCount) {
+    public Collection<CrazyAirResponseDTO> getFlights(CrazyAirRequest crazyAirRequest) {
 
-        Collection<CrazyAirResponse> flightList = crazyAirRepository.getFlights(origin, destination, departureDate, returnDate, passengerCount);
+        Collection<CrazyAirResponse> flightList = crazyAirRepository.getFlights(crazyAirRequest);
         return flightList.stream()
                 .map(flight -> crazyAirMapper.convertToCrazyAirResponseDTO(flight))
                 .collect(Collectors.toList());

@@ -1,8 +1,11 @@
 package com.travix.medusa.busyflights.controller.busyflights;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.travix.medusa.busyflights.controller.crazyair.CrazyAirController;
+import com.travix.medusa.busyflights.domain.busyflights.BusyFlightsRequest;
 import com.travix.medusa.busyflights.dto.busyflights.BusyFlightResponseDTO;
 import com.travix.medusa.busyflights.dto.crazyair.CrazyAirResponseDTO;
+import com.travix.medusa.busyflights.dto.toughjet.ToughJetResponseDTO;
 import com.travix.medusa.busyflights.service.busyflights.BusyFlightService;
 import com.travix.medusa.busyflights.service.crazyair.CrazyAirService;
 import org.junit.jupiter.api.DisplayName;
@@ -18,13 +21,17 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
@@ -52,7 +59,9 @@ class BusyFlightControllerUnitTest {
                 new BusyFlightResponseDTO("KLM", "ToughJet", 300, "AMS", "DEL", "2018-09-25T08:13:14.743", "2018-09-27T08:13:14.743")
                 );
 
-        when(busyFlightService.getFlights(anyString(), anyString(), any(), any(), anyInt())).thenReturn(mockBusyFlightResponseDTO);
+        BusyFlightsRequest busyFlightsRequest= new BusyFlightsRequest("AMS","DEL", LocalDate.parse("2018-09-25"),LocalDate.parse("2018-09-27"),3);
+
+        when(busyFlightService.getFlights(any())).thenReturn(mockBusyFlightResponseDTO);
 
         MvcResult result = mockMvc.perform(get("/busyflight/flights")
                 .param("origin", "AMS")
@@ -61,37 +70,18 @@ class BusyFlightControllerUnitTest {
                 .param("returnDate", "2018-09-27")
                 .param("numberOfPassengers", "2"))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(3)))
                 .andReturn();
+        verify(busyFlightService,times(1)).getFlights(busyFlightsRequest);
+        verifyNoMoreInteractions(busyFlightService);
 
-        String expected = "[\n" +
-                "  {\n" +
-                "    \"airline\": \"Emirates\",\n" +
-                "    \"supplier\": \"CrazyAir\",\n" +
-                "    \"fare\": 650,\n" +
-                "    \"departureAirportCode\": \"AMS\",\n" +
-                "    \"destinationAirportCode\": \"DEL\",\n" +
-                "    \"departureDate\": \"2018-09-25T10:13:14.743\",\n" +
-                "    \"arrivalDate\": \"2018-09-27T10:13:14.743\"\n" +
-                "  },\n" +
-                "  {\n" +
-                "    \"airline\": \"KLM\",\n" +
-                "    \"supplier\": \"CrazyAir\",\n" +
-                "    \"fare\": 1000,\n" +
-                "    \"departureAirportCode\": \"AMS\",\n" +
-                "    \"destinationAirportCode\": \"DEL\",\n" +
-                "    \"departureDate\": \"2018-09-25T12:18:14.743\",\n" +
-                "    \"arrivalDate\": \"2018-09-27T18:45:20.743\"\n" +
-                "  },\n" +
-                "  {\n" +
-                "    \"airline\": \"KLM\",\n" +
-                "    \"supplier\": \"ToughJet\",\n" +
-                "    \"fare\": 300,\n" +
-                "    \"departureAirportCode\": \"AMS\",\n" +
-                "    \"destinationAirportCode\": \"DEL\",\n" +
-                "    \"departureDate\": \"2018-09-25T08:13:14.743\",\n" +
-                "    \"arrivalDate\": \"2018-09-27T08:13:14.743\"\n" +
-                "  }\n" +
-                "]\n";
+        List<BusyFlightResponseDTO> expectedBusyFlightResponseDTO = Arrays.asList(
+                new BusyFlightResponseDTO("Emirates","CrazyAir", 650,"AMS", "DEL", "2018-09-25T10:13:14.743", "2018-09-27T10:13:14.743"),
+                new BusyFlightResponseDTO("KLM", "CrazyAir", 1000, "AMS", "DEL", "2018-09-25T12:18:14.743", "2018-09-27T18:45:20.743"),
+                new BusyFlightResponseDTO("KLM", "ToughJet", 300, "AMS", "DEL", "2018-09-25T08:13:14.743", "2018-09-27T08:13:14.743")
+        );
+        ObjectMapper objectMapper = new ObjectMapper();
+        String expected = objectMapper.writeValueAsString(expectedBusyFlightResponseDTO);
 
         JSONAssert.assertEquals(expected, result.getResponse().getContentAsString(), false);
     }

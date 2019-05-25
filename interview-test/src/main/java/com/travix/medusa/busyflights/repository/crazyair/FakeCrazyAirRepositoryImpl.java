@@ -1,5 +1,6 @@
 package com.travix.medusa.busyflights.repository.crazyair;
 
+import com.travix.medusa.busyflights.domain.crazyair.CrazyAirRequest;
 import com.travix.medusa.busyflights.domain.crazyair.CrazyAirResponse;
 import org.springframework.stereotype.Repository;
 
@@ -18,14 +19,14 @@ public class FakeCrazyAirRepositoryImpl implements CrazyAirRepository {
             new CrazyAirResponse("KLM", 1000, "Business", "AMS", "DEL", LocalDateTime.parse("2018-09-25T12:18:14.743"), LocalDateTime.parse("2018-09-27T18:45:20.743"), 8)
     );
 
-    public Collection<CrazyAirResponse> getFlights(String origin, String destination, LocalDate departureDate, LocalDate returnDate, int passengerCount) {
+    public Collection<CrazyAirResponse> getFlights(CrazyAirRequest crazyAirRequest) {
         return this.flights.stream()
-                .filter(flight -> flight.getDepartureAirportCode().equals(origin)
-                        && flight.getDestinationAirportCode().equals(destination)
-                        && LocalDate.from(flight.getDepartureDate()).equals(departureDate)
-                        && LocalDate.from(flight.getArrivalDate()).equals(returnDate)
+                .filter(flight -> flight.getDepartureAirportCode().equals(crazyAirRequest.getOrigin())
+                        && flight.getDestinationAirportCode().equals(crazyAirRequest.getDestination())
+                        && LocalDate.from(flight.getDepartureDate()).equals(crazyAirRequest.getDepartureDate())
+                        && LocalDate.from(flight.getArrivalDate()).equals(crazyAirRequest.getReturnDate())
                 )
-                .filter(flight -> flight.getPassengerCount() >= passengerCount)
+                .filter(flight -> flight.getPassengerCount() >= crazyAirRequest.getPassengerCount())
                 .collect(Collectors.toList());
     }
 }

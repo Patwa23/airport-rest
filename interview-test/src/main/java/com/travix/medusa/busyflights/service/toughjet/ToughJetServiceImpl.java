@@ -1,5 +1,6 @@
 package com.travix.medusa.busyflights.service.toughjet;
 
+import com.travix.medusa.busyflights.domain.toughjet.ToughJetRequest;
 import com.travix.medusa.busyflights.domain.toughjet.ToughJetResponse;
 import com.travix.medusa.busyflights.dto.toughjet.ToughJetResponseDTO;
 import com.travix.medusa.busyflights.mapper.toughjet.ToughJetMapper;
@@ -21,8 +22,8 @@ public class ToughJetServiceImpl implements ToughJetService {
     private ToughJetMapper toughJetMapper;
 
     @Override
-    public Collection<ToughJetResponseDTO> getFlights(String from, String to, LocalDate outboundDate, LocalDate inboundDate, int numberOfAdults) {
-        Collection<ToughJetResponse> flightList = toughJetRepository.getFlights(from, to, outboundDate, inboundDate, numberOfAdults);
+    public Collection<ToughJetResponseDTO> getFlights(ToughJetRequest toughJetRequest) {
+        Collection<ToughJetResponse> flightList = toughJetRepository.getFlights(toughJetRequest);
         return flightList.stream()
                 .map(flight -> toughJetMapper.convertToToughJetResponseDTO(flight))
                 .collect(Collectors.toList());

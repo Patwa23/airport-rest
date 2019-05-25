@@ -1,5 +1,6 @@
 package com.travix.medusa.busyflights.service.busyflights;
 
+import com.travix.medusa.busyflights.domain.busyflights.BusyFlightsRequest;
 import com.travix.medusa.busyflights.dto.busyflights.BusyFlightResponseDTO;
 import com.travix.medusa.busyflights.dto.crazyair.CrazyAirResponseDTO;
 import com.travix.medusa.busyflights.dto.toughjet.ToughJetResponseDTO;
@@ -36,10 +37,10 @@ public class BusyFlightServiceImpl implements BusyFlightService{
     private String toughJetUrl;
 
     @Override
-    public Collection<BusyFlightResponseDTO> getFlights(String origin, String destination, String departureDate, String returnDate, int numberOfPassengers) {
+    public Collection<BusyFlightResponseDTO> getFlights(BusyFlightsRequest busyFlightsRequest) {
 
-        List<CrazyAirResponseDTO> crazyAirFlights = getCrazyAirRest(origin, destination, departureDate, returnDate, numberOfPassengers);
-        List<ToughJetResponseDTO> toughJetFlights = getToughJetRest(origin, destination, departureDate, returnDate, numberOfPassengers);
+        List<CrazyAirResponseDTO> crazyAirFlights = getCrazyAirRest(busyFlightsRequest);
+        List<ToughJetResponseDTO> toughJetFlights = getToughJetRest(busyFlightsRequest);
         List<BusyFlightResponseDTO> busyFlightResponseDTOList = new ArrayList<>();
         busyFlightResponseDTOList.addAll(getCrazyAirFlights(crazyAirFlights));
         busyFlightResponseDTOList.addAll(getToughJetFlights(toughJetFlights));
@@ -59,34 +60,39 @@ public class BusyFlightServiceImpl implements BusyFlightService{
     }
 
 
-    private String getCrazyAirUrl(String url, String origin, String destination, String departureDate, String returnDate, int numberOfPassengers) {
+    private String getCrazyAirUrl(String url, BusyFlightsRequest busyFlightsRequest) {
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url)
                 // Add query parameter
-                .queryParam("origin", origin)
-                .queryParam("destination", destination)
-                .queryParam("departureDate", departureDate)
-                .queryParam("returnDate", returnDate)
-                .queryParam("passengerCount", numberOfPassengers);
+                .queryParam("origin", busyFlightsRequest.getOrigin())
+                .queryParam("destination", busyFlightsRequest.getDestination())
+                .queryParam("departureDate", busyFlightsRequest.getDepartureDate())
+                .queryParam("returnDate", busyFlightsRequest.getReturnDate())
+                .queryParam("passengerCount", busyFlightsRequest.getNumberOfPassengers());
         return builder.toUriString();
     }
 
-    private String getToughJetUrl(String url, String origin, String destination, String departureDate, String returnDate, int numberOfPassengers) {
+    private String getToughJetUrl(String url, BusyFlightsRequest busyFlightsRequest) {
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url)
                 // Add query parameter
-                .queryParam("from", origin)
-                .queryParam("to", destination)
-                .queryParam("outboundDate", departureDate)
-                .queryParam("inboundDate", returnDate)
-                .queryParam("numberOfAdults", numberOfPassengers);
+                .queryParam("from", busyFlightsRequest.getOrigin())
+                .queryParam("to", busyFlightsRequest.getDestination())
+                .queryParam("outboundDate", busyFlightsRequest.getDepartureDate())
+                .queryParam("inboundDate", busyFlightsRequest.getReturnDate())
+                .queryParam("numberOfAdults", busyFlightsRequest.getNumberOfPassengers());
         return builder.toUriString();
     }
 
-    private List<CrazyAirResponseDTO> getCrazyAirRest(String origin, String destination, String departureDate, String returnDate, int numberOfPassengers) {
+    private List<CrazyAirResponseDTO> getCrazyAirRest(BusyFlightsRequest busyFlightsRequest) {
 
-        if (origin == null || destination == null || departureDate == null || returnDate == null || numberOfPassengers == 0) {
+        if (    busyFlightsRequest.getOrigin() == null ||
+                busyFlightsRequest.getDestination() == null ||
+                busyFlightsRequest.getDepartureDate() == null ||
+                busyFlightsRequest.getReturnDate() == null ||
+                busyFlightsRequest.getNumberOfPassengers() == 0
+        ) {
             throw new BusyFlightIllegalException("Invalid Request");
         }
-        String url = getCrazyAirUrl(crazyAirUrl, origin, destination, departureDate, returnDate, numberOfPassengers);
+        String url = getCrazyAirUrl(crazyAirUrl, busyFlightsRequest);
 
         try {
             ResponseEntity<List<CrazyAirResponseDTO>> response = restTemplate
@@ -101,12 +107,17 @@ public class BusyFlightServiceImpl implements BusyFlightService{
         }
     }
 
-    private List<ToughJetResponseDTO> getToughJetRest(String origin, String destination, String departureDate, String returnDate, int numberOfPassengers) {
+    private List<ToughJetResponseDTO> getToughJetRest(BusyFlightsRequest busyFlightsRequest) {
 
-        if (origin == null || destination == null || departureDate == null || returnDate == null || numberOfPassengers == 0) {
+        if (    busyFlightsRequest.getOrigin() == null ||
+                busyFlightsRequest.getDestination() == null ||
+                busyFlightsRequest.getDepartureDate() == null ||
+                busyFlightsRequest.getReturnDate() == null ||
+                busyFlightsRequest.getNumberOfPassengers() == 0
+        ) {
             throw new BusyFlightIllegalException("Invalid Request");
         }
-        String url = getToughJetUrl(toughJetUrl, origin, destination, departureDate, returnDate, numberOfPassengers);
+        String url = getToughJetUrl(toughJetUrl, busyFlightsRequest);
 
         try {
             ResponseEntity<List<ToughJetResponseDTO>> response = restTemplate
